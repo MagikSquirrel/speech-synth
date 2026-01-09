@@ -14,6 +14,9 @@ PROMPT="$1"
 # Run Ollama once and capture output
 RESPONSE="$(ollama run gemma3:270m "$PROMPT")"
 
+# Strip markdown'
+CLEAN_RESPONSE="$(echo "$RESPONSE" | sed -E 's/\*\*([^*]+)\*\*/\1/g; s/\*([^*]+)\*/\1/g')"
+
 # Print the response
 echo "Prompt:"
 echo "----------------"
@@ -25,4 +28,4 @@ echo "$RESPONSE"
 echo
 
 # Speak the response (flatten newlines for nicer speech)
-espeak "$(echo "$RESPONSE" | tr '\n' ' ')"
+espeak "$(echo "$CLEAN_RESPONSE" | tr '\n' ' ')"
