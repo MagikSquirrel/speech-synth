@@ -1,8 +1,14 @@
 from vosk import Model, KaldiRecognizer
 import wave
+import sys
 
 model = Model("./vosk-model-small-en-us-0.15")
-wf = wave.open("./hello.wav", "rb")
+
+if len(sys.argv) < 2:
+    print("Usage: python transcribe.py <wav_file_path>")
+    sys.exit(1)
+
+wf = wave.open(sys.argv[1], "rb")
 rec = KaldiRecognizer(model, wf.getframerate())
 
 while True:
